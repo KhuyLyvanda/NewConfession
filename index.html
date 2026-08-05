@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Will You Be My Valentine?</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,600&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<div class="scene" id="scene">
+
+  <div class="card">
+    <div class="eyebrow">A little question</div>
+    <h1>Will you be my <span class="heart">&#10084;</span> Valentine?</h1>
+    <p class="sub">One click is all it takes. (No pressure&nbsp;— well, maybe a little.)</p>
+
+    <div class="buttons" id="buttonRow">
+      <button id="yesBtn">Yes 💕</button>
+      <button id="noBtn">No</button>
+    </div>
+
+    <div class="hint">psst, that "No" button gets a little shy</div>
+  </div>
+
+</div>
+
+<div class="overlay" id="overlay">
+  <div class="modal" id="modal">
+    <button class="close-x" id="closeX" aria-label="Close">✕</button>
+
+    <div id="planStep">
+      <h2>Yay! 🎉</h2>
+      <p class="lead">Now pick where and when you'd like to go.</p>
+
+      <div class="field-label">Choose a place</div>
+      <div class="places" id="places">
+        <div class="place" data-place="Walkstreet">Walkstreet</div>
+        <div class="place" data-place="Koh Norea">Koh Norea</div>
+        <div class="place" data-place="Movie Date">Movie Date</div>
+        <div class="place" data-place="Ice Cream Date">Ice Cream Date</div>
+      </div>
+
+      <div class="field-label">Pick a date</div>
+      <input type="date" id="dateInput">
+
+      <div class="field-label">Pick a time</div>
+      <input type="time" id="timeInput">
+
+      <button class="confirmBtn" id="confirmBtn" disabled>Confirm our date 💌</button>
+    </div>
+
+    <div class="result" id="resultStep">
+      <div class="bigheart">💖</div>
+      <h2>It's a date!</h2>
+      <div class="summary" id="summaryBox"></div>
+      <div class="screenshot-note">📸 Take a screenshot of this and send it to me so I know it's official!</div>
+    </div>
+  </div>
+</div>
+
+<script src="script.js"></script>
+
+</body>
+</html>
