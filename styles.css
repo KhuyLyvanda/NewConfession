@@ -299,3 +299,24 @@
     .buttons{ flex-direction:column; height:auto; gap:14px; }
     #noBtn{ position:static; transform:none; }
   }
+.photobooth-note {
+  padding: 12px 14px;
+  border-radius: 12px;
+  border: 1.5px solid #f0cddc;
+  font-family: 'Times New Roman', Times, serif;
+  font-size: 14px;
+  color: var(--plum);
+  background: white;
+  line-height: 1.5;
+}
+
+.photobooth-note a {
+  color: var(--plum);
+  font-weight: bold;
+  text-decoration: underline;
+  text-decoration-color: #f0cddc;
+}
+
+.photobooth-note a:hover {
+  color: #d16a8f; /* adjust to a deeper accent if you have one */
+}
