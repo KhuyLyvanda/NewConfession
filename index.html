@@ -1,74 +1,253 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Will You Be My Valentine?</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,600&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="styles.css">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#ee9ca7">
+  <title>A Little Message For You</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+  <style>
+    html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
+    body {
+      min-height: 100vh;
+      min-height: 100dvh; /* phones: ignores the moving browser toolbar */
+      padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
+      font-family: 'Times New Roman', Times, serif;
+      background: linear-gradient(135deg, #ffdde1, #ee9ca7, #ffb6c1);
+      background-size: 300% 300%;
+      animation: bgmove 12s ease infinite;
+      overflow-x: hidden;
+    }
+    @keyframes bgmove {
+      0%, 100% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+    }
+
+    /* floating hearts in background */
+    .floating-hearts { position: fixed; inset: 0; pointer-events: none; z-index: 0; overflow: hidden; }
+    .floating-hearts span {
+      position: absolute; bottom: -60px; color: rgba(255,255,255,.7);
+      animation: rise linear infinite;
+    }
+    @keyframes rise {
+      to { transform: translateY(-115vh) rotate(40deg); opacity: 0; }
+    }
+
+    .container { position: relative; z-index: 1; }
+    .card {
+      border: 0; border-radius: 1.75rem;
+      background: rgba(255,255,255,.88);
+      backdrop-filter: blur(6px);
+      box-shadow: 0 20px 50px rgba(230, 57, 80, .25) !important;
+    }
+    .script { font-family: 'Times New Roman', Times, serif; font-style: italic; color: #d6336c; }
+    .heart { color: #e63950; font-size: 3.2rem; animation: beat 1.2s infinite; }
+    @keyframes beat {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.2); }
+    }
+
+    .btn-yes {
+      background: linear-gradient(45deg, #ff4d6d, #ff758f);
+      color: #fff; border: 0;
+      box-shadow: 0 6px 18px rgba(255, 77, 109, .45);
+      transition: transform .2s ease, font-size .2s ease;
+    }
+    .btn-yes:hover { color: #fff; transform: scale(1.08); }
+    .btn-no { transition: opacity .25s ease, transform .25s ease; }
+    .btn-no.gone { opacity: 0; transform: scale(0); pointer-events: none; }
+
+    #answerBox { display: none; }
+    .fade-in { animation: fadein .8s ease; }
+    @keyframes fadein { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: none; } }
+
+    /* Apple (iPhone) style emoji images */
+    img.emoji { height: 1em; width: 1em; vertical-align: -0.12em; margin: 0 .05em; display: inline-block; }
+    .floating-hearts img.emoji { height: 1em; width: 1em; margin: 0; }
+
+    /* ---------- Responsive (phone, tablet, laptop, big monitor) ---------- */
+    .title-lg { font-size: clamp(1.9rem, 6vw + .5rem, 3rem); line-height: 1.2; }
+    .question { font-size: clamp(1.5rem, 5vw + .4rem, 2.5rem); line-height: 1.25; }
+    .title-md { font-size: clamp(1.6rem, 5vw + .4rem, 2.5rem); line-height: 1.25; }
+    .card { max-width: 100%; overflow-wrap: anywhere; }
+    .btn-fb { max-width: 100%; white-space: normal; }
+    #answerBox .btn, #questionBox .btn { touch-action: manipulation; }
+
+    /* only grow the Yes button on devices that really hover (not phones) */
+    @media (hover: none) { .btn-yes:hover { transform: none; } }
+
+    /* phones */
+    @media (max-width: 575.98px) {
+      .container { padding-top: 1.5rem !important; padding-bottom: 1.5rem !important; }
+      .card { padding: 1.5rem 1.25rem !important; border-radius: 1.4rem; }
+      .heart { font-size: 2.6rem; }
+      .lead { font-size: 1.1rem; }
+      .btn-lg { padding-top: .6rem; padding-bottom: .6rem; font-size: 1.1rem; }
+      .btn-yes, .btn-no { min-width: 7rem; }
+    }
+    /* very small phones (e.g. 320px) */
+    @media (max-width: 359.98px) {
+      .card { padding: 1.1rem .9rem !important; }
+      .btn-yes { padding-left: 2rem !important; padding-right: 2rem !important; }
+    }
+    /* phones turned sideways: use the short height wisely */
+    @media (max-height: 480px) and (orientation: landscape) {
+      .container { padding-top: .75rem !important; padding-bottom: .75rem !important; }
+      .heart { display: none; }
+    }
+    /* big desktop monitors */
+    @media (min-width: 1400px) {
+      .card { font-size: 1.1rem; }
+    }
+    /* respect people who turn animations off */
+    @media (prefers-reduced-motion: reduce) {
+      body, .heart, .fade-in { animation: none !important; }
+      .floating-hearts { display: none; }
+    }
+  </style>
 </head>
-<body>
+<body class="d-flex align-items-center">
 
-<div class="scene" id="scene">
+  <div class="floating-hearts" id="hearts"></div>
 
-  <div class="card">
-    <div class="eyebrow">A little question</div>
-    <h1>Will you be my <span class="heart">&#10084;</span> Valentine?</h1>
-    <p class="sub">One click is all it takes. (No pressure&nbsp;— well, maybe a little.)</p>
+  <div class="container py-5">
+    <div class="row justify-content-center">
+      <div class="col-12 col-md-8 col-lg-6">
+        <div class="card text-center p-4 p-md-5">
+          <div class="heart mb-2"><i class="bi bi-heart-fill"></i></div>
 
-    <div class="buttons" id="buttonRow">
-      <button id="yesBtn">Yes 💕</button>
-      <button id="noBtn">No</button>
+          <!-- EDIT: her name -->
+          <h1 class="script title-lg mb-3">Hi, PorPor🥹💌</h1>
+
+          <!-- Question section -->
+          <div id="questionBox">
+            <p class="lead text-muted">
+              I’ve been meaning to tell you something, and I’d rather be honest than keep it to myself.
+            </p>
+            <p class="text-muted">
+              I’ve been admiring you from afar. You’re strong, independent, 
+              kind, and helpful, and I respect the way you carry yourself. 
+              Over time I’ve realized my feelings for you are more than friendship.
+            </p>
+            <p class="text-muted">
+              I’m not expecting anything from you. 
+              I’d just like the chance to get to know you better. 
+              Whatever your answer is, I’ll respect it and I’m grateful to have you in my life. 🌸
+            </p>
+
+            <h2 class="script question my-4">Will you give me a chance? 🥹</h2>
+
+            <div class="d-flex flex-wrap justify-content-center align-items-center gap-3">
+              <button id="yesBtn" class="btn btn-yes btn-lg rounded-pill px-5">
+                <i class="bi bi-heart-fill me-1"></i> Yes
+              </button>
+              <button id="noBtn" class="btn btn-outline-secondary btn-lg rounded-pill px-4 btn-no">
+                No
+              </button>
+            </div>
+            <p id="hint" class="small text-muted mt-3 mb-0"></p>
+          </div>
+
+          <!-- Answer section (shown after YES) -->
+          <div id="answerBox" class="fade-in">
+            <h2 class="script title-md mb-3">You made me so happy! Yaayyy😭</h2>
+            <p class="text-muted">
+              Thank you for saying yes. Message me so we can start talking. I can't wait! 💕
+              Note: "Let's Keep it private until you know it's permanent.💕"
+            </p>
+
+            <!-- EDIT: replace the link with your Facebook profile URL -->
+            <a href="https://www.facebook.com/share/19paXhaaqM/?mibextid=wwXIfr"
+               target="_blank" rel="noopener"
+               class="btn btn-primary btn-lg rounded-pill px-4 mt-2 btn-fb">
+              <i class="bi bi-facebook me-2"></i>Text Me on Messenger!🥹
+            </a>
+          </div>
+
+        </div>
+      </div>
     </div>
-
-    <div class="hint">psst, that "No" button gets a little shy</div>
   </div>
 
-</div>
+  <script>
+    // ---- Apple / iPhone emoji (image-based, same look on every device) ----
+    const APPLE_CDN = 'https://cdn.jsdelivr.net/npm/emoji-datasource-apple@15.0.1/img/apple/64/';
+    function emojiImg(ch) {
+      const code = Array.from(ch).map(c => c.codePointAt(0).toString(16)).join('-');
+      const img = document.createElement('img');
+      img.className = 'emoji';
+      img.alt = ch;
+      img.draggable = false;
+      img.src = APPLE_CDN + code + '.png';
+      img.onerror = function () { this.replaceWith(document.createTextNode(ch)); };
+      return img;
+    }
+    const EMOJI_RE = /(\p{Extended_Pictographic}\uFE0F?(?:\u200D\p{Extended_Pictographic}\uFE0F?)*)/gu;
+    function parseEmoji(root) {
+      const walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT);
+      const nodes = [];
+      while (walker.nextNode()) nodes.push(walker.currentNode);
+      nodes.forEach(node => {
+        if (!node.parentNode || /^(SCRIPT|STYLE)$/.test(node.parentNode.nodeName)) return;
+        const text = node.nodeValue;
+        if (!EMOJI_RE.test(text)) return;
+        EMOJI_RE.lastIndex = 0;
+        const frag = document.createDocumentFragment();
+        text.split(EMOJI_RE).forEach(part => {
+          if (!part) return;
+          EMOJI_RE.lastIndex = 0;
+          frag.appendChild(EMOJI_RE.test(part) ? emojiImg(part) : document.createTextNode(part));
+          EMOJI_RE.lastIndex = 0;
+        });
+        node.parentNode.replaceChild(frag, node);
+      });
+    }
+    parseEmoji(document.body);
 
-<div class="overlay" id="overlay">
-  <div class="modal" id="modal">
-    <button class="close-x" id="closeX" aria-label="Close">✕</button>
+    // Floating hearts background
+    const heartsBox = document.getElementById('hearts');
+    const symbols = ['💕', '💗', '💖', '💞', '❤️'];
+    const isSmall = window.innerWidth < 576;
+    for (let i = 0; i < (isSmall ? 12 : 22); i++) {
+      const s = document.createElement('span');
+      s.appendChild(emojiImg(symbols[Math.floor(Math.random() * symbols.length)]));
+      s.style.left = Math.random() * 100 + '%';
+      s.style.fontSize = (16 + Math.random() * 28) + 'px';
+      s.style.animationDuration = (8 + Math.random() * 10) + 's';
+      s.style.animationDelay = (Math.random() * 10) + 's';
+      heartsBox.appendChild(s);
+    }
 
-    <div id="planStep">
-      <h2>Yay! 🎉</h2>
-      <p class="lead">Now pick where and when you'd like to go.</p>
+    const noBtn = document.getElementById('noBtn');
+    const yesBtn = document.getElementById('yesBtn');
+    const hint = document.getElementById('hint');
 
-      <div class="field-label">Choose a place</div>
-      <div class="places" id="places">
-        <div class="place" data-place="Walkstreet">Walkstreet</div>
-        <div class="place" data-place="Koh Norea">Koh Norea</div>
-        <div class="place" data-place="Movie Date">Movie Date</div>
-        <div class="place" data-place="Ice Cream Date">Ice Cream Date</div>
-         <div class="place" data-place="Ice Cream Date">Coffee Date</div>
-         <div class="place" data-place="Ice Cream Date">Mii Leak Kluon</div>
-         <div class="place" data-place="Ice Cream Date">Sunset Date</div>
-      </div>
+    // When she touches/hovers/clicks "No", it disappears
+    function hideNo(e) {
+      e.preventDefault();
+      noBtn.classList.add('gone');
+      yesBtn.style.fontSize = '1.5rem';
+      hint.textContent = 'Oops, the "No" button ran away 🙈 Looks like there is only one answer 💖';
+      parseEmoji(hint);
+    }
+    noBtn.addEventListener('mouseenter', hideNo);   // desktop: hover
+    noBtn.addEventListener('touchstart', hideNo);   // phone: touch
+    noBtn.addEventListener('click', hideNo);
 
-      <div class="field-label">Pick a date</div>
-      <input type="date" id="dateInput">
-
-      <div class="field-label">Pick a time</div>
-      <input type="time" id="timeInput">
-      <div class="field-label">One more thing 📸</div>
-      <div class="photobooth-note">
-        Hop into <a href="https://photobooth-io.cc/" target="_blank" rel="noopener">photobooth</a> and take a picture of you! Save the picture of your photobooth that you take.
-      </div>
-
-      <button class="confirmBtn" id="confirmBtn" disabled>Confirm our date 💌</button>
-    </div>
-
-    <div class="result" id="resultStep">
-      <div class="bigheart">💖</div>
-      <h2>It's a date!</h2>
-      <div class="summary" id="summaryBox"></div>
-      <div class="screenshot-note">📸 Take a screenshot of this including the picture that you just take recently and send it to me so I know it's official!</div>
-    </div>
-  </div>
-</div>
-
-<script src="script.js"></script>
-
+    // YES: show the Facebook contact + confetti hearts
+    yesBtn.addEventListener('click', () => {
+      document.getElementById('questionBox').style.display = 'none';
+      document.getElementById('answerBox').style.display = 'block';
+      for (let i = 0; i < (isSmall ? 24 : 40); i++) {
+        const s = document.createElement('span');
+        s.appendChild(emojiImg('💖'));
+        s.style.left = Math.random() * 100 + '%';
+        s.style.fontSize = (20 + Math.random() * 30) + 'px';
+        s.style.animationDuration = (3 + Math.random() * 4) + 's';
+        heartsBox.appendChild(s);
+      }
+    });
+  </script>
 </body>
 </html>
